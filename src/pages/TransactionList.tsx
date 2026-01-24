@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { fetchTransactions, type Transaction, mockTransactions } from '../services/api';
+import DatePicker from 'react-datepicker';
 import { format } from 'date-fns';
+import { fetchTransactions, type Transaction, mockTransactions } from '../services/api';
+import 'react-datepicker/dist/react-datepicker.css';
 
 const TransactionList = () => {
     const navigate = useNavigate();
@@ -12,14 +14,20 @@ const TransactionList = () => {
     // Pagination & Filter state
     const [page, setPage] = useState(1);
     const [limit, setLimit] = useState(50);
-    const [fromDate, setFromDate] = useState('');
-    const [toDate, setToDate] = useState('');
+    const [fromDate, setFromDate] = useState<Date | null>(new Date(2026, 0, 1)); // Default to 01/01/2026
+    const [toDate, setToDate] = useState<Date | null>(new Date()); // Default to today
+    const [docNo, setDocNo] = useState<string>('');
+    const [ref, setRef] = useState<string>('');
 
     const loadData = async () => {
         setLoading(true);
         setError(null);
         try {
-            const result = await fetchTransactions(page, limit, fromDate, toDate);
+            // Format dates to YYYY-MM-DD for API call
+            const formattedFromDate = fromDate ? format(fromDate, 'yyyy-MM-dd') : '';
+            const formattedToDate = toDate ? format(toDate, 'yyyy-MM-dd') : '';
+
+            const result = await fetchTransactions(page, limit, formattedFromDate, formattedToDate, docNo, ref);
             if (result.success) {
                 setTransactions(result.data);
             } else {
@@ -57,20 +65,44 @@ const TransactionList = () => {
                 <form onSubmit={handleFilterSubmit} className="filter-form">
                     <div className="filter-group">
                         <label htmlFor="from">From Date</label>
-                        <input
-                            type="date"
+                        <DatePicker
                             id="from"
-                            value={fromDate}
-                            onChange={(e) => setFromDate(e.target.value)}
+                            selected={fromDate}
+                            onChange={(date: Date | null) => setFromDate(date)}
+                            dateFormat="dd/MM/yyyy"
+                            className="date-picker-input"
+                            wrapperClassName="date-picker-wrapper"
                         />
                     </div>
                     <div className="filter-group">
                         <label htmlFor="to">To Date</label>
-                        <input
-                            type="date"
+                        <DatePicker
                             id="to"
-                            value={toDate}
-                            onChange={(e) => setToDate(e.target.value)}
+                            selected={toDate}
+                            onChange={(date: Date | null) => setToDate(date)}
+                            dateFormat="dd/MM/yyyy"
+                            className="date-picker-input"
+                            wrapperClassName="date-picker-wrapper"
+                        />
+                    </div>
+                    <div className="filter-group">
+                        <label htmlFor="doc_no">Document No</label>
+                        <input
+                            type="text"
+                            id="doc_no"
+                            value={docNo}
+                            onChange={(e) => setDocNo(e.target.value)}
+                            placeholder="Enter document number"
+                        />
+                    </div>
+                    <div className="filter-group">
+                        <label htmlFor="ref">Reference</label>
+                        <input
+                            type="text"
+                            id="ref"
+                            value={ref}
+                            onChange={(e) => setRef(e.target.value)}
+                            placeholder="Enter reference"
                         />
                     </div>
                     <button type="submit" className="btn btn-primary">Filter</button>
@@ -101,7 +133,7 @@ const TransactionList = () => {
                                 <tr key={t.id}>
                                     <td>{t.id}</td>
                                     <td>{t.doc_no}</td>
-                                    <td>{format(new Date(t.posting_date), 'yyyy-MM-dd HH:mm')}</td>
+                                    <td>{format(new Date(t.posting_date), 'dd/MM/yyyy HH:mm')}</td>
                                     <td>{t.description}</td>
                                     <td className="text-right">{t.debit_total}</td>
                                     <td>

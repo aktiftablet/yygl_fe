@@ -49,14 +49,18 @@ const api = axios.create({
 });
 
 export const fetchTransactions = async (
-  page = 1, 
-  limit = 50, 
-  from?: string, 
-  to?: string
+  page = 1,
+  limit = 50,
+  from?: string,
+  to?: string,
+  docNo?: string,
+  ref?: string
 ): Promise<PaginatedResponse<Transaction>> => {
   const params: Record<string, any> = { page, limit };
   if (from) params.from = from;
   if (to) params.to = to;
+  if (docNo) params.doc_no = docNo;
+  if (ref) params.ref = ref;
 
   const response = await api.get<PaginatedResponse<Transaction>>('/transactions', { params });
   return response.data;

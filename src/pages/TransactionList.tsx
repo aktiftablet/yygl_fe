@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import DatePicker from 'react-datepicker';
 import { format } from 'date-fns';
@@ -19,7 +19,7 @@ const TransactionList = () => {
     const [docNo, setDocNo] = useState<string>('');
     const [ref, setRef] = useState<string>('');
 
-    const loadData = async () => {
+    const loadData = useCallback(async () => {
         setLoading(true);
         setError(null);
         try {
@@ -42,11 +42,11 @@ const TransactionList = () => {
         } finally {
             setLoading(false);
         }
-    };
+    }, [page, limit, fromDate, toDate, docNo, ref]);
 
     useEffect(() => {
         loadData();
-    }, [page, limit]); // fromDate/toDate controlled by manual submit usually better for UX, or debounce
+    }, [loadData]);
 
     const handleFilterSubmit = (e: React.FormEvent) => {
         e.preventDefault();

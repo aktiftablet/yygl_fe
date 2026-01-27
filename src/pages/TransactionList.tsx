@@ -1,11 +1,13 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import DatePicker from 'react-datepicker';
+import { useTranslation } from 'react-i18next';
 import { format } from 'date-fns';
 import { fetchTransactions, type Transaction, mockTransactions } from '../services/api';
 import 'react-datepicker/dist/react-datepicker.css';
 
 const TransactionList = () => {
+    const { t } = useTranslation();
     const navigate = useNavigate();
     const [transactions, setTransactions] = useState<Transaction[]>([]);
     const [loading, setLoading] = useState(false);
@@ -32,17 +34,17 @@ const TransactionList = () => {
                 setTransactions(result.data);
             } else {
                 setTransactions(mockTransactions);
-                setError('Failed to fetch data. Showing mock data.');
+                setError(t('list.error_load'));
             }
         } catch (err) {
             console.error(err);
             // For demonstration purposes, if the API fails (likely 404/500 if not running), load mock data
             setTransactions(mockTransactions);
-            setError('Cannot connect to API. Showing mock data.');
+            setError(t('list.error_load'));
         } finally {
             setLoading(false);
         }
-    }, [page, limit, fromDate, toDate, docNo, ref]);
+    }, [page, limit, fromDate, toDate, docNo, ref, t]);
 
     useEffect(() => {
         loadData();
@@ -57,14 +59,14 @@ const TransactionList = () => {
     return (
         <div className="container">
             <header className="page-header">
-                <h1>Transaction Report</h1>
-                <p className="subtitle">General Ledger Transactions</p>
+                <h1>{t('list.title')}</h1>
+                <p className="subtitle">{t('list.subtitle')}</p>
             </header>
 
             <section className="filters">
                 <form onSubmit={handleFilterSubmit} className="filter-form">
                     <div className="filter-group">
-                        <label htmlFor="from">From Date</label>
+                        <label htmlFor="from">{t('list.filter.from')}</label>
                         <DatePicker
                             id="from"
                             selected={fromDate}
@@ -75,7 +77,7 @@ const TransactionList = () => {
                         />
                     </div>
                     <div className="filter-group">
-                        <label htmlFor="to">To Date</label>
+                        <label htmlFor="to">{t('list.filter.to')}</label>
                         <DatePicker
                             id="to"
                             selected={toDate}
@@ -86,26 +88,26 @@ const TransactionList = () => {
                         />
                     </div>
                     <div className="filter-group">
-                        <label htmlFor="doc_no">Document No</label>
+                        <label htmlFor="doc_no">{t('list.filter.doc_no')}</label>
                         <input
                             type="text"
                             id="doc_no"
                             value={docNo}
                             onChange={(e) => setDocNo(e.target.value)}
-                            placeholder="Enter document number"
+                            placeholder={t('list.filter.placeholder_doc')}
                         />
                     </div>
                     <div className="filter-group">
-                        <label htmlFor="ref">Reference</label>
+                        <label htmlFor="ref">{t('list.filter.ref')}</label>
                         <input
                             type="text"
                             id="ref"
                             value={ref}
                             onChange={(e) => setRef(e.target.value)}
-                            placeholder="Enter reference"
+                            placeholder={t('list.filter.placeholder_ref')}
                         />
                     </div>
-                    <button type="submit" className="btn btn-primary">Filter</button>
+                    <button type="submit" className="btn btn-primary">{t('list.filter.submit')}</button>
                 </form>
             </section>
 
@@ -115,33 +117,33 @@ const TransactionList = () => {
                 <table className="table">
                     <thead>
                         <tr>
-                            <th>ID</th>
-                            <th>Doc No</th>
-                            <th>Date</th>
-                            <th>Description</th>
-                            <th>Amount</th>
-                            <th>Actions</th>
+                            <th>{t('list.table.id')}</th>
+                            <th>{t('list.table.doc_no')}</th>
+                            <th>{t('list.table.date')}</th>
+                            <th>{t('list.table.description')}</th>
+                            <th>{t('list.table.amount')}</th>
+                            <th>{t('list.table.actions')}</th>
                         </tr>
                     </thead>
                     <tbody>
                         {loading ? (
-                            <tr><td colSpan={6}>Loading...</td></tr>
+                            <tr><td colSpan={6}>{t('list.loading')}</td></tr>
                         ) : transactions.length === 0 ? (
-                            <tr><td colSpan={6}>No transactions found.</td></tr>
+                            <tr><td colSpan={6}>{t('list.no_data')}</td></tr>
                         ) : (
-                            transactions.map((t) => (
-                                <tr key={t.id}>
-                                    <td>{t.id}</td>
-                                    <td>{t.doc_no}</td>
-                                    <td>{format(new Date(t.posting_date), 'dd/MM/yyyy HH:mm')}</td>
-                                    <td>{t.description}</td>
-                                    <td className="text-right">{t.debit_total}</td>
+                            transactions.map((tItem) => (
+                                <tr key={tItem.id}>
+                                    <td>{tItem.id}</td>
+                                    <td>{tItem.doc_no}</td>
+                                    <td>{format(new Date(tItem.posting_date), 'dd/MM/yyyy HH:mm')}</td>
+                                    <td>{tItem.description}</td>
+                                    <td className="text-right">{tItem.debit_total}</td>
                                     <td>
                                         <button
                                             className="btn btn-sm btn-outline"
-                                            onClick={() => navigate(`/transactions/${t.id}`)}
+                                            onClick={() => navigate(`/transactions/${tItem.id}`)}
                                         >
-                                            View
+                                            {t('list.action.view')}
                                         </button>
                                     </td>
                                 </tr>
@@ -157,14 +159,14 @@ const TransactionList = () => {
                     onClick={() => setPage(p => Math.max(1, p - 1))}
                     className="btn btn-secondary"
                 >
-                    Previous
+                    {t('list.pagination.prev')}
                 </button>
-                <span className="page-info">Page {page}</span>
+                <span className="page-info">{t('list.pagination.info', { page })}</span>
                 <button
                     onClick={() => setPage(p => p + 1)}
                     className="btn btn-secondary"
                 >
-                    Next
+                    {t('list.pagination.next')}
                 </button>
 
                 <select

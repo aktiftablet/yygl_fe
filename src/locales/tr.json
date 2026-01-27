@@ -1,0 +1,97 @@
+{
+    "common": {
+        "loading": "Yükleniyor...",
+        "error_generic": "Bir hata oluştu",
+        "back": "Geri",
+        "save": "Kaydet",
+        "cancel": "İptal",
+        "success": "Başarılı",
+        "error": "Hata"
+    },
+    "app": {
+        "title": "YYGL Raporları",
+        "nav": {
+            "transactions": "İşlemler",
+            "new_transaction": "Yeni İşlem"
+        }
+    },
+    "list": {
+        "title": "İşlem Raporu",
+        "subtitle": "Defter-i Kebir İşlemleri",
+        "filter": {
+            "from": "Başlangıç Tarihi",
+            "to": "Bitiş Tarihi",
+            "doc_no": "Belge No",
+            "ref": "Referans",
+            "submit": "Filtrele",
+            "placeholder_doc": "Belge numarası girin",
+            "placeholder_ref": "Referans girin"
+        },
+        "table": {
+            "id": "ID",
+            "doc_no": "Belge No",
+            "date": "Tarih",
+            "description": "Açıklama",
+            "amount": "Tutar",
+            "actions": "İşlemler"
+        },
+        "action": {
+            "view": "Görüntüle"
+        },
+        "no_data": "İşlem bulunamadı.",
+        "loading": "Yükleniyor...",
+        "error_load": "Veri çekilemedi. Mock veri gösteriliyor.",
+        "pagination": {
+            "prev": "Önceki",
+            "next": "Sonraki",
+            "info": "Sayfa {{page}}"
+        }
+    },
+    "detail": {
+        "back_to_list": "Listeye Dön",
+        "title": "İşlem #{{id}}",
+        "status": {
+            "reversed": "Ters Kayıt",
+            "active": "Aktif"
+        },
+        "meta": {
+            "date": "Tarih",
+            "ref": "Ref",
+            "total": "Toplam"
+        },
+        "section": {
+            "description": "Açıklama",
+            "items": "Muhasebe Kalemleri"
+        },
+        "table": {
+            "line": "Satır",
+            "account": "Hesap",
+            "dc": "B/A",
+            "amount": "Tutar",
+            "description": "Açıklama"
+        },
+        "error_load": "Detaylar getirilemedi",
+        "not_found": "Bulunamadı"
+    },
+    "create": {
+        "title": "İşlem Oluştur",
+        "subtitle": "Finansal Kayıtlar için Manuel Giriş",
+        "success_message": "İşlem başarıyla kaydedildi!",
+        "error_save": "İşlem kaydedilemedi",
+        "form": {
+            "amount": "Tutar",
+            "payer_id": "Ödeyen ID",
+            "receiver_id": "Alıcı ID",
+            "facilitator": "Ödeme Aracısı",
+            "facilitator_placeholder": "örn. payment_gateway",
+            "commission": "Komisyon (%)",
+            "kdv": "KDV (%)",
+            "stopaj": "Stopaj (%)",
+            "timestamp": "Zaman Damgası",
+            "call_id": "Çağrı ID (Benzersiz)",
+            "selected_date": "Seçilen: {{date}}"
+        },
+        "submit": "İşlemi Kaydet",
+        "saving": "Kaydediliyor..."
+    }
+}

@@ -71,6 +71,23 @@ export const fetchTransactionDetail = async (id: number): Promise<DetailResponse
   return response.data;
 };
 
+export interface SaveTransactionRequest {
+  amount: number;
+  payer_id: number;
+  reciever_id: number;
+  pym_facilitator: string;
+  commision: number;
+  kdv: number;
+  stopaj: number;
+  timestamp: string;
+  call_id: string;
+}
+
+export const saveTransaction = async (data: SaveTransactionRequest): Promise<any> => {
+  const response = await api.post('/transactions', data);
+  return response.data;
+};
+
 // Mock data for development if needed
 export const mockTransactions: Transaction[] = [
   {

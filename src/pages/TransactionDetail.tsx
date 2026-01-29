@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { fetchTransactionDetail, type TransactionDetail as ITransactionDetail, mockTransactions } from '../services/api';
 import { format } from 'date-fns';
 
 const TransactionDetail = () => {
+    const { t } = useTranslation();
     const { id } = useParams<{ id: string }>();
     const navigate = useNavigate();
     const [data, setData] = useState<ITransactionDetail | null>(null);
@@ -37,9 +39,9 @@ const TransactionDetail = () => {
                                 }
                             ]
                         });
-                        setError('Failed to fetch details. Showing mock data.');
+                        setError(t('detail.error_load'));
                     } else {
-                        setError('Failed to fetch details');
+                        setError(t('detail.error_load'));
                     }
                 }
             } catch (err) {
@@ -62,7 +64,7 @@ const TransactionDetail = () => {
                         ]
                     });
                 } else {
-                    setError('Cannot load transaction details.');
+                    setError(t('detail.error_load'));
                 }
             } finally {
                 setLoading(false);
@@ -70,46 +72,46 @@ const TransactionDetail = () => {
         };
 
         loadDetail();
-    }, [id]);
+    }, [id, t]);
 
-    if (loading) return <div className="container">Loading...</div>;
-    if (error && !data) return <div className="container"><div className="alert alert-error">{error}</div><button className="btn" onClick={() => navigate(-1)}>Back</button></div>;
-    if (!data) return <div className="container">Not found</div>;
+    if (loading) return <div className="container">{t('common.loading')}</div>;
+    if (error && !data) return <div className="container"><div className="alert alert-error">{error}</div><button className="btn" onClick={() => navigate(-1)}>{t('common.back')}</button></div>;
+    if (!data) return <div className="container">{t('detail.not_found')}</div>;
 
     const { document, items } = data;
 
     return (
         <div className="container">
-            <button className="btn btn-link mb-4" onClick={() => navigate('/transactions')}>&larr; Back to List</button>
+            <button className="btn btn-link mb-4" onClick={() => navigate('/transactions')}>&larr; {t('detail.back_to_list')}</button>
 
             <header className="trans-header">
                 <div className="trans-title">
-                    <h1>Transaction #{document.doc_no}</h1>
-                    <span className="badge">{document.reversal ? 'Reversed' : 'Active'}</span>
+                    <h1>{t('detail.title', { id: document.doc_no })}</h1>
+                    <span className="badge">{document.reversal ? t('detail.status.reversed') : t('detail.status.active')}</span>
                 </div>
                 <div className="trans-meta">
-                    <p><strong>Date:</strong> {format(new Date(document.posting_date), 'PPP HH:mm')}</p>
-                    <p><strong>Ref:</strong> {document.ref}</p>
-                    <p><strong>Total:</strong> {document.debit_total} TRY</p>
+                    <p><strong>{t('detail.meta.date')}:</strong> {format(new Date(document.posting_date), 'PPP HH:mm')}</p>
+                    <p><strong>{t('detail.meta.ref')}:</strong> {document.ref}</p>
+                    <p><strong>{t('detail.meta.total')}:</strong> {document.debit_total} TRY</p>
                 </div>
             </header>
 
             <div className="card">
-                <h3>Description</h3>
+                <h3>{t('detail.section.description')}</h3>
                 <p>{document.description}</p>
             </div>
 
             <div className="card">
-                <h3>Accounting Items</h3>
+                <h3>{t('detail.section.items')}</h3>
                 <div className="table-responsive">
                     <table className="table table-striped">
                         <thead>
                             <tr>
-                                <th>Line</th>
-                                <th>Account</th>
-                                <th>D/C</th>
-                                <th>Amount</th>
-                                <th>Description</th>
+                                <th>{t('detail.table.line')}</th>
+                                <th>{t('detail.table.account')}</th>
+                                <th>{t('detail.table.dc')}</th>
+                                <th>{t('detail.table.amount')}</th>
+                                <th>{t('detail.table.description')}</th>
                             </tr>
                         </thead>
                         <tbody>

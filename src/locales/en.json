@@ -1,0 +1,97 @@
+{
+    "common": {
+        "loading": "Loading...",
+        "error_generic": "An error occurred",
+        "back": "Back",
+        "save": "Save",
+        "cancel": "Cancel",
+        "success": "Success",
+        "error": "Error"
+    },
+    "app": {
+        "title": "YYGL Reports",
+        "nav": {
+            "transactions": "Transactions",
+            "new_transaction": "New Transaction"
+        }
+    },
+    "list": {
+        "title": "Transaction Report",
+        "subtitle": "General Ledger Transactions",
+        "filter": {
+            "from": "From Date",
+            "to": "To Date",
+            "doc_no": "Document No",
+            "ref": "Reference",
+            "submit": "Filter",
+            "placeholder_doc": "Enter document number",
+            "placeholder_ref": "Enter reference"
+        },
+        "table": {
+            "id": "ID",
+            "doc_no": "Doc No",
+            "date": "Date",
+            "description": "Description",
+            "amount": "Amount",
+            "actions": "Actions"
+        },
+        "action": {
+            "view": "View"
+        },
+        "no_data": "No transactions found.",
+        "loading": "Loading...",
+        "error_load": "Failed to fetch data. Showing mock data.",
+        "pagination": {
+            "prev": "Previous",
+            "next": "Next",
+            "info": "Page {{page}}"
+        }
+    },
+    "detail": {
+        "back_to_list": "Back to List",
+        "title": "Transaction #{{id}}",
+        "status": {
+            "reversed": "Reversed",
+            "active": "Active"
+        },
+        "meta": {
+            "date": "Date",
+            "ref": "Ref",
+            "total": "Total"
+        },
+        "section": {
+            "description": "Description",
+            "items": "Accounting Items"
+        },
+        "table": {
+            "line": "Line",
+            "account": "Account",
+            "dc": "D/C",
+            "amount": "Amount",
+            "description": "Description"
+        },
+        "error_load": "Failed to fetch details",
+        "not_found": "Not found"
+    },
+    "create": {
+        "title": "Create Transaction",
+        "subtitle": "Manual Entry for Financial Records",
+        "success_message": "Transaction saved successfully!",
+        "error_save": "Failed to save transaction",
+        "form": {
+            "amount": "Amount",
+            "payer_id": "Payer ID",
+            "receiver_id": "Receiver ID",
+            "facilitator": "Payment Facilitator",
+            "facilitator_placeholder": "e.g. payment_gateway",
+            "commission": "Commission (%)",
+            "kdv": "KDV (%)",
+            "stopaj": "Stopaj (%)",
+            "timestamp": "Timestamp",
+            "call_id": "Call ID (Unique)",
+            "selected_date": "Selected: {{date}}"
+        },
+        "submit": "Save Transaction",
+        "saving": "Saving..."
+    }
+}
